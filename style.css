@@ -114,6 +114,22 @@ body{
   transition: 0.2s ease;
   cursor: pointer;
 }
+.drawUser{
+  padding: 5px;
+  background-color: #2d393cc4;
+  text-align: center;
+  display: flex;
+  align-items: center;align-items: center;
+  height: 70%;
+  right: 0;
+  border-radius: 5px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.drawUser.drawing{
+  background-color: #8a9db5;
+}
 
 .start{
   background-color: #ff0d00;

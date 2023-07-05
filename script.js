@@ -136,36 +136,50 @@ grid.addEventListener('click', (e)=>{
 
 
 // To draw lines
-    grid.addEventListener('mousedown', (e)=>{
-        e.preventDefault();
-        var flag=0;
-        x=e.clientX;
-            y=e.clientY;
-            var eleAtPoint= document.elementFromPoint(x, y);
-            if(eleAtPoint&&flag==0&&startPlaceFlag==0&&!eleAtPoint.classList.contains("start")&&endPlaceFlag==0&&!eleAtPoint.classList.contains("end")){
-                eleAtPoint.classList.add('drawn');
 
-    
-            }
-        grid.addEventListener('mouseover', (e)=>{
+    const drawToggle=document.querySelector(".drawUser");
+    var drawing=false;
+    function drawMaze(){
+        grid.addEventListener('mousedown', (e)=>{
+            if(drawing){
+                console.log("HIIII")
+                e.preventDefault();
+            var flag=0;
             x=e.clientX;
-            y=e.clientY;
-            var eleAtPoint= document.elementFromPoint(x, y);
-            if(eleAtPoint&&flag==0&&startPlaceFlag==0&&!eleAtPoint.classList.contains("start")&&endPlaceFlag==0&&!eleAtPoint.classList.contains("end")){
-                eleAtPoint.classList.add('drawn');
-                // console.log(eleAtPoint)
+                y=e.clientY;
+                var eleAtPoint= document.elementFromPoint(x, y);
+                if(eleAtPoint&&flag==0&&startPlaceFlag==0&&!eleAtPoint.classList.contains("start")&&endPlaceFlag==0&&!eleAtPoint.classList.contains("end")){
+                    eleAtPoint.classList.add('drawn');
     
+        
+                }
+            grid.addEventListener('mouseover', (e)=>{
+                x=e.clientX;
+                y=e.clientY;
+                var eleAtPoint= document.elementFromPoint(x, y);
+                if(eleAtPoint&&flag==0&&startPlaceFlag==0&&!eleAtPoint.classList.contains("start")&&endPlaceFlag==0&&!eleAtPoint.classList.contains("end")){
+                    eleAtPoint.classList.add('drawn');
+                    // console.log(eleAtPoint)
+        
+                }
+            })
+            grid.addEventListener('mouseup', (e)=>{
+                x=null;
+                y=null;
+                flag=1;
+                return;
+            })
             }
+            
         })
-        grid.addEventListener('mouseup', (e)=>{
-            x=null;
-            y=null;
-            flag=1;
-            return;
-        })
+    }
+    
+    drawToggle.addEventListener('click', ()=>{
+        drawToggle.classList.toggle("drawing");
+        drawing=!drawing;
+        if(drawing){
+            console.log("Its true")
+        }
     })
-
-
-
-
+drawMaze();
 
