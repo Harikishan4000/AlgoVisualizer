@@ -177,9 +177,6 @@ grid.addEventListener('click', (e)=>{
     drawToggle.addEventListener('click', ()=>{
         drawToggle.classList.toggle("drawing");
         drawing=!drawing;
-        if(drawing){
-            console.log("Its true")
-        }
     })
 drawMaze();
 
