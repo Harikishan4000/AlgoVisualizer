@@ -152,7 +152,6 @@ drawMaze();
 
 
 
-
 //Erase lines
 
 const eraseToggle=document.querySelector(".eraseUser");
