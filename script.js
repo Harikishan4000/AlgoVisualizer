@@ -5,7 +5,7 @@ for(let i=0; i<totDivs;i++){
     var new_div=document.createElement("div");
     new_div.classList.add("gridItem");
     new_div.classList.add("gridItem"+String(i));
-    new_div.setAttribute("cost", 0);
+    new_div.setAttribute("cost", 1);
     grid.appendChild(new_div);
 }
 

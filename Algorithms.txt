@@ -1,0 +1,80 @@
+Dijkstra's Algorithm:
+
+Here's a simplified version of Dijkstra's algorithm:
+
+1. Create a graph representation of the problem, with nodes and edges.
+2. Assign a tentative distance value to every node: set it to 0 for the initial node and infinity for all other nodes.
+3. Set the initial node as the current node.
+4. For the current node, consider all of its neighboring nodes and calculate their tentative distances through the current node. Compare these tentative distances to the current assigned values and update them if the new distance is shorter.
+5. Mark the current node as visited to keep track of the nodes that have been fully explored.
+6. If all nodes have been visited, or if the smallest tentative distance among the unvisited nodes is infinity, the algorithm is finished. Otherwise, select the unvisited node with the smallest tentative distance as the next "current node" and go back to step 4.
+
+In summary, the algorithm starts from an initial node and explores the neighboring nodes, updating their distances from the initial node if a shorter path is found. It continues this process until all nodes have been visited or the destination node is reached. The algorithm guarantees that the shortest path to each node is found when it terminates.
+
+Keep in mind that this is a simplified explanation, and the actual implementation may involve additional steps, such as maintaining a priority queue to efficiently select the next node with the smallest tentative distance.
+
+Bellmanford Algorithm:
+
+Here's a simplified version of the Bellman-Ford algorithm:
+
+1. Create a graph representation of the problem, with nodes and edges.
+2. Assign a tentative distance value to every node: set it to 0 for the source node and infinity for all other nodes.
+3. Repeat the following step for a total of N-1 times, where N is the number of nodes in the graph:
+   a. For each edge (u, v) in the graph, calculate the new distance to reach node v from the source node by adding the weight of the edge (u, v) to the distance of node u. If this new distance is shorter than the current distance of node v, update the distance of node v.
+4. After N-1 iterations, all shortest paths with at most N-1 edges have been found.
+5. Iterate over all edges in the graph one more time and check if there are any negative cycles. If an edge (u, v) exists where the new distance to reach node v from the source node through node u is shorter than the current distance of node v, then there is a negative cycle in the graph.
+6. If there is a negative cycle, the algorithm cannot find a single shortest path since the distance can become arbitrarily small. Otherwise, the algorithm has successfully found the shortest paths from the source node to all other nodes in the graph.
+
+In summary, the Bellman-Ford algorithm calculates the shortest paths from a source node to all other nodes in a graph. It iteratively relaxes the distances of nodes until the optimal solution is found. The algorithm is able to handle graphs with negative edge weights and detect the presence of negative cycles. However, note that the time complexity of the Bellman-Ford algorithm is O(|V| * |E|), where |V| is the number of nodes and |E| is the number of edges in the graph.
+
+A* Algorithm:
+
+Here's a simplified version of the A* algorithm:
+
+1. Create a graph representation of the problem, with nodes and edges.
+2. Assign a tentative distance value to every node: set it to infinity for all nodes except the start node, which is set to 0.
+3. Assign a heuristic value to every node: this is an estimate of the distance from each node to the goal node.
+4. Create an open set that will contain the nodes to be evaluated.
+5. Add the start node to the open set.
+6. While the open set is not empty:
+   a. Select the node from the open set with the lowest total cost, where the total cost is the sum of the tentative distance from the start node and the heuristic estimate to the goal node.
+   b. If the selected node is the goal node, the algorithm is finished and the optimal path has been found.
+   c. Otherwise, remove the selected node from the open set and mark it as visited.
+   d. For each neighboring node of the selected node:
+      - Calculate the tentative distance from the start node to the neighboring node by adding the weight of the edge between them.
+      - If the tentative distance is shorter than the current distance of the neighboring node, update its distance and set the selected node as its parent.
+      - If the neighboring node is not in the open set, add it to the open set.
+
+In summary, the A* algorithm combines the concepts of Dijkstra's algorithm and a heuristic function to find the optimal path from a start node to a goal node in a graph. It considers both the cost of reaching a node from the start node and an estimated cost from the node to the goal node. By using the heuristic function, A* focuses on the most promising paths, improving the efficiency of the search.
+
+DFS:
+
+Here's a simplified version of Depth-First Search (DFS):
+
+1. Choose a starting node in the graph.
+2. Mark the starting node as visited.
+3. For each unvisited neighboring node of the current node, do the following steps recursively:
+   a. Visit the neighboring node by calling the DFS function on it.
+4. Repeat step 3 until all nodes have been visited or the desired condition is met.
+5. If there are unvisited nodes remaining in the graph, choose another unvisited node as the new starting node and repeat steps 2-4.
+6. If all nodes have been visited or the desired condition is met, the DFS algorithm is complete.
+
+In summary, DFS explores the graph by visiting one node and then recursively exploring as far as possible along each branch before backtracking. It traverses the depth of each branch before moving on to explore other branches. DFS can be used to search for a specific node, check for connectivity, or traverse the entire graph.
+
+BFS:
+
+Here's a simplified version of Breadth-First Search (BFS):
+
+1. Choose a starting node in the graph.
+2. Create an empty queue and enqueue the starting node.
+3. Mark the starting node as visited.
+4. Repeat the following steps until the queue is empty:
+   a. Dequeue a node from the front of the queue.
+   b. Visit the dequeued node.
+   c. For each unvisited neighboring node of the dequeued node, do the following steps:
+      - Mark the neighboring node as visited.
+      - Enqueue the neighboring node to the back of the queue.
+5. If there are unvisited nodes remaining in the graph, choose another unvisited node as the new starting node and repeat steps 2-4.
+6. If all nodes have been visited, the BFS algorithm is complete.
+
+In summary, BFS explores the graph in a breadthward motion, visiting all nodes at the same depth level before moving on to nodes at the next level. It uses a queue to keep track of nodes to be visited and ensures that nodes closer to the starting node are visited before nodes farther away. BFS can be used to find the shortest path between two nodes, check for connectivity, or traverse the entire graph.
