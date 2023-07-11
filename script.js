@@ -1,10 +1,14 @@
 const grid=document.querySelector(".grid-container");
+const numOfRows=50;
+const numOfColumns=100;
+
 
 let totDivs= 5000;
 for(let i=0; i<totDivs;i++){
     var new_div=document.createElement("div");
     new_div.classList.add("gridItem");
     new_div.classList.add("gridItem_"+String(i));
+    new_div.setAttribute("index", i);
     new_div.setAttribute("cost", 1);
     grid.appendChild(new_div);
 }
@@ -41,8 +45,7 @@ selectAlgo.addEventListener('click', ()=>{
 
 
 
-
-var coords=[];
+const gridItem=document.querySelectorAll('.gridItem');
 var x, y;
 
 
@@ -53,9 +56,15 @@ var startPlaceFlag=0;
 
 addstart.addEventListener('click', ()=>{
     const start=document.querySelector('.start');
+    // const traversed=document.querySelectorAll('.traversed');
+
     startPlaceFlag=1;
-    console.log(start);
-    start.classList.remove("start");
+    // console.log(start);
+    if(start.classList.contains("start"))
+        start.classList.remove("start");
+    gridItem.forEach((traversed) => {
+        traversed.classList.remove('traversed');  //This is to remove all traversed nodes once a new start point is created
+      });
 })
 
 grid.addEventListener('click', (e)=>{
@@ -198,3 +207,74 @@ const eraseToggle=document.querySelector(".eraseUser");
         }
     })
 eraseMaze();
+
+
+
+//Dijkstra's algorithm
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve,ms));
+ }
+
+async function dij(){
+    const startNode=document.querySelector('.start');
+    const rowStartNode=document.querySelector('.start');
+
+    const endNode=document.querySelector('.end');
+    let indexNode= parseInt(startNode.getAttribute("index"));
+    let prevNode= document.querySelector('.gridItem_'+String(indexNode));
+    let nextNode= document.querySelector('.gridItem_'+String(indexNode));
+    let topNode= document.querySelector('.gridItem_'+String(indexNode));
+    let bottomNode= document.querySelector('.gridItem_'+String(indexNode));
+    let topRightNode= document.querySelector('.gridItem_'+String(indexNode));
+    let topLeftNode= document.querySelector('.gridItem_'+String(indexNode));
+    let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode));
+    let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode));
+    
+        for(i=1;i<1000;i++){
+            if(!prevNode.classList.contains("drawn")){
+                prevNode=document.querySelector('.gridItem_'+String(parseInt(prevNode.getAttribute("index"))-1));
+                prevNode.classList.add('traversed');
+                
+            }
+            if(!nextNode.classList.contains("drawn")){
+                nextNode=document.querySelector('.gridItem_'+String(parseInt(nextNode.getAttribute("index"))+1));
+                nextNode.classList.add('traversed');
+                
+            }
+            if(!topNode.classList.contains("drawn")){
+                topNode=document.querySelector('.gridItem_'+String(parseInt(topNode.getAttribute("index"))-numOfColumns));
+                topNode.classList.add('traversed');
+                
+            }
+            if(!bottomNode.classList.contains("drawn")){
+                bottomNode=document.querySelector('.gridItem_'+String(parseInt(bottomNode.getAttribute("index"))+numOfColumns));
+                bottomNode.classList.add('traversed');
+                
+            }if(!topRightNode.classList.contains("drawn")){
+                topRightNode=document.querySelector('.gridItem_'+String(parseInt(topRightNode.getAttribute("index"))-(numOfColumns-1)));
+                topRightNode.classList.add('traversed');
+                
+            }
+            if(!bottomRightNode.classList.contains("drawn")){
+                bottomRightNode=document.querySelector('.gridItem_'+String(parseInt(bottomRightNode.getAttribute("index"))+(numOfColumns+1)));
+                bottomRightNode.classList.add('traversed');
+                
+            }if(!topLeftNode.classList.contains("drawn")){
+                topLeftNode=document.querySelector('.gridItem_'+String(parseInt(topLeftNode.getAttribute("index"))-(numOfColumns+1)));
+                topLeftNode.classList.add('traversed');
+                
+            }
+            if(!bottomLeftNode.classList.contains("drawn")){
+                bottomLeftNode=document.querySelector('.gridItem_'+String(parseInt(bottomLeftNode.getAttribute("index"))+(numOfColumns-1)));
+                bottomLeftNode.classList.add('traversed');
+                
+            }
+            
+        }
+    
+}
+const solve=document.querySelector(".solve");
+solve.addEventListener("click", ()=>{
+    dij();
+})
