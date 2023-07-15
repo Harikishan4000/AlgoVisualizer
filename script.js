@@ -10,11 +10,13 @@ for(let i=0; i<totDivs;i++){
     new_div.classList.add("gridItem_"+String(i));
     new_div.setAttribute("index", i);
     new_div.setAttribute("cost", 1);
+    // new_div.innerHTML=new_div.getAttribute("cost")
     if(i<numOfColumns||i%100==0||i%100==99||i>=(numOfColumns*numOfRows)-numOfColumns){
         new_div.classList.add("drawn");
     }
     grid.appendChild(new_div);
 }
+
 
 
 
@@ -224,15 +226,19 @@ const solve=document.querySelector(".solve");
 solve.addEventListener("click", async ()=>{
     const startNode=document.querySelector('.start');
     let indexNode= parseInt(startNode.getAttribute("index"));
-    console.log(startNode)
-
+    // console.log(startNode)
+    endFound=0;
     djikstra(indexNode);
 })
 
 
-
+let endFound=0;
 async function djikstra(indexNode){
-    console.log("Heya");
+    if(document.querySelector('.gridItem_'+String(indexNode)).classList.contains("end"))
+        endFound=1;
+
+    if(endFound==1)
+        return;
     await sleep(1);
     let prevNode= document.querySelector('.gridItem_'+String(indexNode-1));
     let nextNode= document.querySelector('.gridItem_'+String(indexNode+1));
@@ -245,14 +251,19 @@ async function djikstra(indexNode){
     let index=0;
     let wallEncountered=1;
 
-    if(prevNode&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(prevNode&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")&&!prevNode.classList.contains("end")){
         // prevNode=document.querySelector('.gridItem_'+String(parseInt(prevNode.getAttribute("index"))-1));
         if(prevNode.classList.contains("drawn"))
             wallEncountered=0;
         prevNode.classList.add('traversed');
+        let cost=prevNode.getAttribute("cost");
+        cost=parseInt(cost)+1;
+        prevNode.setAttribute("cost", cost)
+    console.log(prevNode.getAttribute("cost"))
+
         index++;
     }
-    if(nextNode&&!nextNode.classList.contains("traversed")&&!nextNode.classList.contains("start")){
+    if(nextNode&&!nextNode.classList.contains("traversed")&&!nextNode.classList.contains("start")&&!nextNode.classList.contains("end")){
         // nextNode=document.querySelector('.gridItem_'+String(parseInt(nextNode.getAttribute("index"))+1));
         if(nextNode.classList.contains("drawn"))
             wallEncountered=0;
@@ -260,7 +271,7 @@ async function djikstra(indexNode){
         index++;
         
     }
-    if(topNode&&!topNode.classList.contains("traversed")&&!topNode.classList.contains("start")){
+    if(topNode&&!topNode.classList.contains("traversed")&&!topNode.classList.contains("start")&&!topNode.classList.contains("end")){
         // topNode=document.querySelector('.gridItem_'+String(parseInt(topNode.getAttribute("index"))-numOfColumns));
         if(topNode.classList.contains("drawn"))
             return
@@ -269,7 +280,7 @@ async function djikstra(indexNode){
         index++;        
     }
 
-    if(bottomNode&&!bottomNode.classList.contains("traversed")&&!bottomNode.classList.contains("start")){
+    if(bottomNode&&!bottomNode.classList.contains("traversed")&&!bottomNode.classList.contains("start")&&!bottomNode.classList.contains("end")){
         // bottomNode=document.querySelector('.gridItem_'+String(parseInt(bottomNode.getAttribute("index"))+numOfColumns));
         if(bottomNode.classList.contains("drawn"))
             wallEncountered=0;
@@ -278,35 +289,35 @@ async function djikstra(indexNode){
         index++;
 
         
-    }if(topRightNode&&!topRightNode.classList.contains("traversed")&&!topRightNode.classList.contains("start")){
+    }if(topRightNode&&!topRightNode.classList.contains("traversed")&&!topRightNode.classList.contains("start")&&!topRightNode.classList.contains("end")){
         // topRightNode=document.querySelector('.gridItem_'+String(parseInt(topRightNode.getAttribute("index"))-(numOfColumns-1)));
-        if(topRightNode.classList.contains("drawn"))
+        if(topRightNode.classList.contains("drawn")||topNode.classList.contains("drawn")&&nextNode.classList.contains("drawn"))
             wallEncountered=0;
         topRightNode.classList.add('traversed');
         // await sleep(2);
         index++;
         
     }
-    if(bottomRightNode&&!bottomRightNode.classList.contains("traversed")&&!bottomRightNode.classList.contains("start")){
+    if(bottomRightNode&&!bottomRightNode.classList.contains("traversed")&&!bottomRightNode.classList.contains("start")&&!bottomRightNode.classList.contains("end")){
         // bottomRightNode=document.querySelector('.gridItem_'+String(parseInt(bottomRightNode.getAttribute("index"))+(numOfColumns+1)));
-        if(bottomRightNode.classList.contains("drawn"))
+        if(bottomRightNode.classList.contains("drawn")||bottomNode.classList.contains("drawn")&&nextNode.classList.contains("drawn"))
             wallEncountered=0;
         bottomRightNode.classList.add('traversed');
         // await sleep(2);
         index++;
         
-    }if(topLeftNode&&!topLeftNode.classList.contains("traversed")&&!topLeftNode.classList.contains("start")){
+    }if(topLeftNode&&!topLeftNode.classList.contains("traversed")&&!topLeftNode.classList.contains("start")&&!topLeftNode.classList.contains("end")){
         // topLeftNode=document.querySelector('.gridItem_'+String(parseInt(topLeftNode.getAttribute("index"))-(numOfColumns+1)));
-        if(topLeftNode.classList.contains("drawn"))
+        if(topLeftNode.classList.contains("drawn")||topNode.classList.contains("drawn")&&prevNode.classList.contains("drawn"))
             wallEncountered=0;
         topLeftNode.classList.add('traversed');
         // await sleep(2);
         index++;
         
     }
-    if(bottomLeftNode&&!bottomLeftNode.classList.contains("traversed")&&!bottomLeftNode.classList.contains("start")){
+    if(bottomLeftNode&&!bottomLeftNode.classList.contains("traversed")&&!bottomLeftNode.classList.contains("start")&&!bottomLeftNode.classList.contains("end")){
         // bottomLeftNode=document.querySelector('.gridItem_'+String(parseInt(bottomLeftNode.getAttribute("index"))+(numOfColumns-1)));
-        if(bottomLeftNode.classList.contains("drawn"))
+        if(bottomLeftNode.classList.contains("drawn")||bottomNode.classList.contains("drawn")&&prevNode.classList.contains("drawn"))
             wallEncountered=0;
         bottomLeftNode.classList.add('traversed');
         // await sleep(2);
@@ -326,26 +337,3 @@ async function djikstra(indexNode){
     djikstra(parseInt(bottomRightNode.getAttribute("index")))
 }
 
-async function dij(){
-    let prevNode= document.querySelector('.gridItem_'+String(indexNode-1));
-    let nextNode= document.querySelector('.gridItem_'+String(indexNode+1));
-    let topNode= document.querySelector('.gridItem_'+String(indexNode-100));
-    let bottomNode= document.querySelector('.gridItem_'+String(indexNode+100));
-    let topRightNode= document.querySelector('.gridItem_'+String(indexNode-99));
-    let topLeftNode= document.querySelector('.gridItem_'+String(indexNode-101));
-    let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode+101));
-    let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode+99));
-
-    //Indexes for the nodes
-    let prevNodeIndex=parseInt(prevNode.getAttribute("index"));
-    let nextNodeIndex=parseInt(nextNode.getAttribute("index"));
-    let topNodeIndex=parseInt(topNode.getAttribute("index"));
-    let topLeftNodeIndex=parseInt(topLeftNode.getAttribute("index"));
-    let topRightNodeIndex=parseInt(topRightNode.getAttribute("index"));
-    let bottomNodeIndex=parseInt(bottomNode.getAttribute("index"));
-    let bottomLeftNodeIndex=parseInt(bottomLeftNode.getAttribute("index"));
-    let bottomRightNodeIndex=parseInt(bottomRightNode.getAttribute("index"));
-
-    //
-
-}
