@@ -10,6 +10,9 @@ for(let i=0; i<totDivs;i++){
     new_div.classList.add("gridItem_"+String(i));
     new_div.setAttribute("index", i);
     new_div.setAttribute("cost", 1);
+    if(i<numOfColumns||i%100==0||i%100==99||i>=(numOfColumns*numOfRows)-numOfColumns){
+        new_div.classList.add("drawn");
+    }
     grid.appendChild(new_div);
 }
 
@@ -230,7 +233,7 @@ solve.addEventListener("click", async ()=>{
 
 async function djikstra(indexNode){
     console.log("Heya");
-    await sleep(0.00002);
+    await sleep(1);
     let prevNode= document.querySelector('.gridItem_'+String(indexNode-1));
     let nextNode= document.querySelector('.gridItem_'+String(indexNode+1));
     let topNode= document.querySelector('.gridItem_'+String(indexNode-100));
@@ -239,51 +242,80 @@ async function djikstra(indexNode){
     let topLeftNode= document.querySelector('.gridItem_'+String(indexNode-101));
     let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode+101));
     let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode+99));
+    let index=0;
+    let wallEncountered=1;
 
-    if(prevNode&&!prevNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(prevNode&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
         // prevNode=document.querySelector('.gridItem_'+String(parseInt(prevNode.getAttribute("index"))-1));
+        if(prevNode.classList.contains("drawn"))
+            wallEncountered=0;
         prevNode.classList.add('traversed');
+        index++;
     }
-    if(nextNode&&!nextNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(nextNode&&!nextNode.classList.contains("traversed")&&!nextNode.classList.contains("start")){
         // nextNode=document.querySelector('.gridItem_'+String(parseInt(nextNode.getAttribute("index"))+1));
+        if(nextNode.classList.contains("drawn"))
+            wallEncountered=0;
         nextNode.classList.add('traversed');
+        index++;
         
     }
-    if(topNode&&!topNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(topNode&&!topNode.classList.contains("traversed")&&!topNode.classList.contains("start")){
         // topNode=document.querySelector('.gridItem_'+String(parseInt(topNode.getAttribute("index"))-numOfColumns));
+        if(topNode.classList.contains("drawn"))
+            return
         topNode.classList.add('traversed');
         // await sleep(2);
-        
+        index++;        
     }
-    if(bottomNode&&!bottomNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+
+    if(bottomNode&&!bottomNode.classList.contains("traversed")&&!bottomNode.classList.contains("start")){
         // bottomNode=document.querySelector('.gridItem_'+String(parseInt(bottomNode.getAttribute("index"))+numOfColumns));
+        if(bottomNode.classList.contains("drawn"))
+            wallEncountered=0;
         bottomNode.classList.add('traversed');
         // await sleep(2);
+        index++;
 
         
-    }if(topRightNode&&!topRightNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    }if(topRightNode&&!topRightNode.classList.contains("traversed")&&!topRightNode.classList.contains("start")){
         // topRightNode=document.querySelector('.gridItem_'+String(parseInt(topRightNode.getAttribute("index"))-(numOfColumns-1)));
+        if(topRightNode.classList.contains("drawn"))
+            wallEncountered=0;
         topRightNode.classList.add('traversed');
         // await sleep(2);
+        index++;
         
     }
-    if(bottomRightNode&&!bottomRightNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(bottomRightNode&&!bottomRightNode.classList.contains("traversed")&&!bottomRightNode.classList.contains("start")){
         // bottomRightNode=document.querySelector('.gridItem_'+String(parseInt(bottomRightNode.getAttribute("index"))+(numOfColumns+1)));
+        if(bottomRightNode.classList.contains("drawn"))
+            wallEncountered=0;
         bottomRightNode.classList.add('traversed');
         // await sleep(2);
+        index++;
         
-    }if(topLeftNode&&!topLeftNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    }if(topLeftNode&&!topLeftNode.classList.contains("traversed")&&!topLeftNode.classList.contains("start")){
         // topLeftNode=document.querySelector('.gridItem_'+String(parseInt(topLeftNode.getAttribute("index"))-(numOfColumns+1)));
+        if(topLeftNode.classList.contains("drawn"))
+            wallEncountered=0;
         topLeftNode.classList.add('traversed');
         // await sleep(2);
+        index++;
         
     }
-    if(bottomLeftNode&&!bottomLeftNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+    if(bottomLeftNode&&!bottomLeftNode.classList.contains("traversed")&&!bottomLeftNode.classList.contains("start")){
         // bottomLeftNode=document.querySelector('.gridItem_'+String(parseInt(bottomLeftNode.getAttribute("index"))+(numOfColumns-1)));
+        if(bottomLeftNode.classList.contains("drawn"))
+            wallEncountered=0;
         bottomLeftNode.classList.add('traversed');
         // await sleep(2);
+        index++;
         
     }
+
+    if(index==0 || wallEncountered==0)
+        return;
     djikstra(parseInt(prevNode.getAttribute("index")))
     djikstra(parseInt(nextNode.getAttribute("index")))
     djikstra(parseInt(topNode.getAttribute("index")))

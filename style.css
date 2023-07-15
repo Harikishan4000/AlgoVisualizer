@@ -239,6 +239,7 @@ body{
 .gridItem{
   border: 0.1px solid #ffffff21;
   z-index: inherit;
+  font-size: 5px;
   /* transition: 0.5s ease-in-out; */
 }
 
