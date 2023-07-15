@@ -216,65 +216,104 @@ function sleep(ms){
     return new Promise(resolve => setTimeout(resolve,ms));
  }
 
-async function dij(){
-    const startNode=document.querySelector('.start');
-    const rowStartNode=document.querySelector('.start');
-
-    const endNode=document.querySelector('.end');
-    let indexNode= parseInt(startNode.getAttribute("index"));
-    let prevNode= document.querySelector('.gridItem_'+String(indexNode));
-    let nextNode= document.querySelector('.gridItem_'+String(indexNode));
-    let topNode= document.querySelector('.gridItem_'+String(indexNode));
-    let bottomNode= document.querySelector('.gridItem_'+String(indexNode));
-    let topRightNode= document.querySelector('.gridItem_'+String(indexNode));
-    let topLeftNode= document.querySelector('.gridItem_'+String(indexNode));
-    let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode));
-    let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode));
-    
-        for(i=1;i<1000;i++){
-            if(!prevNode.classList.contains("drawn")){
-                prevNode=document.querySelector('.gridItem_'+String(parseInt(prevNode.getAttribute("index"))-1));
-                prevNode.classList.add('traversed');
-                
-            }
-            if(!nextNode.classList.contains("drawn")){
-                nextNode=document.querySelector('.gridItem_'+String(parseInt(nextNode.getAttribute("index"))+1));
-                nextNode.classList.add('traversed');
-                
-            }
-            if(!topNode.classList.contains("drawn")){
-                topNode=document.querySelector('.gridItem_'+String(parseInt(topNode.getAttribute("index"))-numOfColumns));
-                topNode.classList.add('traversed');
-                
-            }
-            if(!bottomNode.classList.contains("drawn")){
-                bottomNode=document.querySelector('.gridItem_'+String(parseInt(bottomNode.getAttribute("index"))+numOfColumns));
-                bottomNode.classList.add('traversed');
-                
-            }if(!topRightNode.classList.contains("drawn")){
-                topRightNode=document.querySelector('.gridItem_'+String(parseInt(topRightNode.getAttribute("index"))-(numOfColumns-1)));
-                topRightNode.classList.add('traversed');
-                
-            }
-            if(!bottomRightNode.classList.contains("drawn")){
-                bottomRightNode=document.querySelector('.gridItem_'+String(parseInt(bottomRightNode.getAttribute("index"))+(numOfColumns+1)));
-                bottomRightNode.classList.add('traversed');
-                
-            }if(!topLeftNode.classList.contains("drawn")){
-                topLeftNode=document.querySelector('.gridItem_'+String(parseInt(topLeftNode.getAttribute("index"))-(numOfColumns+1)));
-                topLeftNode.classList.add('traversed');
-                
-            }
-            if(!bottomLeftNode.classList.contains("drawn")){
-                bottomLeftNode=document.querySelector('.gridItem_'+String(parseInt(bottomLeftNode.getAttribute("index"))+(numOfColumns-1)));
-                bottomLeftNode.classList.add('traversed');
-                
-            }
-            
-        }
-    
-}
 const solve=document.querySelector(".solve");
-solve.addEventListener("click", ()=>{
-    dij();
+
+solve.addEventListener("click", async ()=>{
+    const startNode=document.querySelector('.start');
+    let indexNode= parseInt(startNode.getAttribute("index"));
+    console.log(startNode)
+
+    djikstra(indexNode);
 })
+
+
+
+async function djikstra(indexNode){
+    console.log("Heya");
+    await sleep(0.00002);
+    let prevNode= document.querySelector('.gridItem_'+String(indexNode-1));
+    let nextNode= document.querySelector('.gridItem_'+String(indexNode+1));
+    let topNode= document.querySelector('.gridItem_'+String(indexNode-100));
+    let bottomNode= document.querySelector('.gridItem_'+String(indexNode+100));
+    let topRightNode= document.querySelector('.gridItem_'+String(indexNode-99));
+    let topLeftNode= document.querySelector('.gridItem_'+String(indexNode-101));
+    let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode+101));
+    let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode+99));
+
+    if(prevNode&&!prevNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // prevNode=document.querySelector('.gridItem_'+String(parseInt(prevNode.getAttribute("index"))-1));
+        prevNode.classList.add('traversed');
+    }
+    if(nextNode&&!nextNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // nextNode=document.querySelector('.gridItem_'+String(parseInt(nextNode.getAttribute("index"))+1));
+        nextNode.classList.add('traversed');
+        
+    }
+    if(topNode&&!topNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // topNode=document.querySelector('.gridItem_'+String(parseInt(topNode.getAttribute("index"))-numOfColumns));
+        topNode.classList.add('traversed');
+        // await sleep(2);
+        
+    }
+    if(bottomNode&&!bottomNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // bottomNode=document.querySelector('.gridItem_'+String(parseInt(bottomNode.getAttribute("index"))+numOfColumns));
+        bottomNode.classList.add('traversed');
+        // await sleep(2);
+
+        
+    }if(topRightNode&&!topRightNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // topRightNode=document.querySelector('.gridItem_'+String(parseInt(topRightNode.getAttribute("index"))-(numOfColumns-1)));
+        topRightNode.classList.add('traversed');
+        // await sleep(2);
+        
+    }
+    if(bottomRightNode&&!bottomRightNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // bottomRightNode=document.querySelector('.gridItem_'+String(parseInt(bottomRightNode.getAttribute("index"))+(numOfColumns+1)));
+        bottomRightNode.classList.add('traversed');
+        // await sleep(2);
+        
+    }if(topLeftNode&&!topLeftNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // topLeftNode=document.querySelector('.gridItem_'+String(parseInt(topLeftNode.getAttribute("index"))-(numOfColumns+1)));
+        topLeftNode.classList.add('traversed');
+        // await sleep(2);
+        
+    }
+    if(bottomLeftNode&&!bottomLeftNode.classList.contains("drawn")&&!prevNode.classList.contains("traversed")&&!prevNode.classList.contains("start")){
+        // bottomLeftNode=document.querySelector('.gridItem_'+String(parseInt(bottomLeftNode.getAttribute("index"))+(numOfColumns-1)));
+        bottomLeftNode.classList.add('traversed');
+        // await sleep(2);
+        
+    }
+    djikstra(parseInt(prevNode.getAttribute("index")))
+    djikstra(parseInt(nextNode.getAttribute("index")))
+    djikstra(parseInt(topNode.getAttribute("index")))
+    djikstra(parseInt(bottomNode.getAttribute("index")))
+    djikstra(parseInt(topLeftNode.getAttribute("index")))
+    djikstra(parseInt(topRightNode.getAttribute("index")))
+    djikstra(parseInt(bottomLeftNode.getAttribute("index")))
+    djikstra(parseInt(bottomRightNode.getAttribute("index")))
+}
+
+async function dij(){
+    let prevNode= document.querySelector('.gridItem_'+String(indexNode-1));
+    let nextNode= document.querySelector('.gridItem_'+String(indexNode+1));
+    let topNode= document.querySelector('.gridItem_'+String(indexNode-100));
+    let bottomNode= document.querySelector('.gridItem_'+String(indexNode+100));
+    let topRightNode= document.querySelector('.gridItem_'+String(indexNode-99));
+    let topLeftNode= document.querySelector('.gridItem_'+String(indexNode-101));
+    let bottomRightNode= document.querySelector('.gridItem_'+String(indexNode+101));
+    let bottomLeftNode= document.querySelector('.gridItem_'+String(indexNode+99));
+
+    //Indexes for the nodes
+    let prevNodeIndex=parseInt(prevNode.getAttribute("index"));
+    let nextNodeIndex=parseInt(nextNode.getAttribute("index"));
+    let topNodeIndex=parseInt(topNode.getAttribute("index"));
+    let topLeftNodeIndex=parseInt(topLeftNode.getAttribute("index"));
+    let topRightNodeIndex=parseInt(topRightNode.getAttribute("index"));
+    let bottomNodeIndex=parseInt(bottomNode.getAttribute("index"));
+    let bottomLeftNodeIndex=parseInt(bottomLeftNode.getAttribute("index"));
+    let bottomRightNodeIndex=parseInt(bottomRightNode.getAttribute("index"));
+
+    //
+
+}
