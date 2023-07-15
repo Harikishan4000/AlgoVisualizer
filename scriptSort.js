@@ -116,11 +116,62 @@ async function bubbleSort(arr, numOfBars) {
         if (!isSwapped) {
             break;
         }
-        await sleep(5);
+        await sleep(1);
     }
     return arr;
 }
+
+async function insertionSort(arr, numOfBars){
+    for(let i=0;i<=numOfBars;i++){
+        let bars = document.getElementsByClassName("bar");
+        let curr=arr[i];
+        let j=i-1;
+        while((j>-1)&&(curr<arr[j])){
+            arr[j+1]=arr[j];
+            bars[j].style.color="black";
+            bars[j+1].style.color="black";
+            bars[j].style.height = arr[j] * 80/maxRange + "vh";
+            bars[j].style.backgroundColor = "green";
+            // bars[j].innerText = arr[j];
+            bars[j + 1].style.height = arr[j+1] * 80/maxRange + "vh";
+            bars[j + 1].style.backgroundColor = "green";
+            await sleep(20);   
+            bars[j].style.backgroundColor = "white";
+            bars[j+1].style.backgroundColor = "white";
+            j--;
+        }
+        arr[j+1]=curr;
+    }
+    return arr;
+}
+
+function merge_Arrays(left_sub_array, right_sub_array) {
+    let array = []
+    let bars = document.getElementsByClassName("bar");
+
+    while (left_sub_array.length && right_sub_array.length) {
+       if (left_sub_array[0] < right_sub_array[0]) {
+          array.push(left_sub_array.shift());
+       } else {
+          array.push(right_sub_array.shift());
+       }
+    }
+    return [ ...array, ...left_sub_array, ...right_sub_array ]
+ }
+ function merge_sort(unsorted_Array, numOfBars) {
+    let bars = document.getElementsByClassName("bar");
+
+    const middle_index = numOfBars / 2;
+    if(numOfBars < 2) {
+       return unsorted_Array;
+    }
+    const left_sub_array = unsorted_Array.splice(0, middle_index);
+    return merge_Arrays(merge_sort(left_sub_array, numOfBars),merge_sort(unsorted_Array,numOfBars));
+ }
+
 sort_btn.addEventListener("click", function() {
     numOfBars = rangeObj.value;
-    let sorted_array = bubbleSort(unsorted_array, numOfBars);
+    console.log(unsorted_array);
+    let sorted_array = merge_sort(unsorted_array, numOfBars);
+    console.log(sorted_array);
 });
