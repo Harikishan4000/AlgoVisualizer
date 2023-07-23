@@ -98,7 +98,11 @@ addend.addEventListener('click', ()=>{
     const end=document.querySelector('.end');
     endPlaceFlag=1;
     console.log(end);
-    end.classList.remove("end");
+    if(end.classList.contains("end"))
+        end.classList.remove("end");
+    gridItem.forEach((traversed) => {
+        traversed.classList.remove('traversed');  //This is to remove all traversed nodes once a new end point is created
+  });
 })
 
 grid.addEventListener('click', (e)=>{
@@ -259,7 +263,7 @@ async function djikstra(indexNode){
         let cost=prevNode.getAttribute("cost");
         cost=parseInt(cost)+1;
         prevNode.setAttribute("cost", cost)
-    console.log(prevNode.getAttribute("cost"))
+        console.log(prevNode.getAttribute("cost"))
 
         index++;
     }

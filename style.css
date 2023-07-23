@@ -104,6 +104,7 @@ body{
   cursor: pointer;
 }
 .addEndNode{
+  margin: 5px;
   padding: 5px;
   background-color: #2d393cc4;
   text-align: center;
